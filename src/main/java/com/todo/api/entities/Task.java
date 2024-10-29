@@ -37,6 +37,7 @@ public class Task {
     public Task(TaskCreateDto obj){
         this.title = obj.title();
         this.description = obj.description();
+        this.status = StatusTask.EM_ANDAMENTO;
     }
     
 }
