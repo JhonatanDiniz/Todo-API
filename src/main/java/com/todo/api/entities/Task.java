@@ -1,5 +1,6 @@
 package com.todo.api.entities;
 
+import com.todo.api.entities.DTOS.TaskCreateDto;
 import com.todo.api.entities.DTOS.TaskResponseDto;
 import com.todo.api.entities.ENUMS.StatusTask;
 
@@ -31,6 +32,11 @@ public class Task {
         this.title = obj.title();
         this.description = obj.description();
         this.status = obj.status();
+    }
+
+    public Task(TaskCreateDto obj){
+        this.title = obj.title();
+        this.description = obj.description();
     }
     
 }

@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.todo.api.entities.Task;
+import com.todo.api.entities.DTOS.TaskCreateDto;
 import com.todo.api.entities.DTOS.TaskResponseDto;
 import com.todo.api.repositories.TaskRepository;
 
@@ -20,6 +22,12 @@ public class TaskService {
             .stream()
             .map(TaskResponseDto::new)
             .collect(Collectors.toList());        
+    }
+
+    public TaskResponseDto create(TaskCreateDto obj){
+        Task task = new Task(obj);
+        taskRepository.save(task);
+        return new TaskResponseDto(task);        
     }
     
     
