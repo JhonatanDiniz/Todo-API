@@ -1,6 +1,7 @@
 package com.todo.api.entities;
 
 import com.todo.api.entities.DTOS.TaskResponseDto;
+import com.todo.api.entities.ENUMS.StatusTask;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,11 +24,13 @@ public class Task {
     private Long id;
     private String title;
     private String description;
+    private StatusTask status;
 
     public Task(TaskResponseDto obj){
         this.id = obj.id();
         this.title = obj.title();
         this.description = obj.description();
+        this.status = obj.status();
     }
     
 }
