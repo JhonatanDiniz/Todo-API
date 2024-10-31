@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.todo.api.entities.Task;
-import com.todo.api.entities.ENUMS.StatusTask;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record TaskResponseDto(Long id, String title, String description, String status, LocalDate createdAt, LocalDate duDate, LocalDate finishedAt) {
