@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum StatusTask {
-    EM_ANDAMENTO(0, "Em_Andamento"), CONCLUIDO(1, "Concluído"), ATRASADO(2, "Atrasado");
+    EM_ANDAMENTO(0, "Em Andamento"), CONCLUIDO(1, "Concluído"), ATRASADO(2, "Atrasado");
 
     private Integer code;
     private String description;

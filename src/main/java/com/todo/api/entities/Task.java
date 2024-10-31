@@ -1,5 +1,11 @@
 package com.todo.api.entities;
 
+import java.time.LocalDate;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.todo.api.entities.DTOS.TaskCreateDto;
 import com.todo.api.entities.DTOS.TaskResponseDto;
 import com.todo.api.entities.ENUMS.StatusTask;
@@ -26,12 +32,25 @@ public class Task {
     private String title;
     private String description;
     private StatusTask status;
+        
+    @CreationTimestamp
+    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+    private LocalDate createdAt;
+
+    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+    private LocalDate dueDate;
+
+    @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+    private LocalDate finishedAt;
 
     public Task(TaskResponseDto obj){
         this.id = obj.id();
         this.title = obj.title();
         this.description = obj.description();
-        this.status = obj.status();
+        // this.status = obj.status();
+        this.createdAt = obj.createdAt();
+        this.dueDate = obj.duDate();
+        this.dueDate = obj.finishedAt();
     }
 
     public Task(TaskCreateDto obj){
