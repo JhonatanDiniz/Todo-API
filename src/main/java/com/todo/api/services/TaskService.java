@@ -24,11 +24,14 @@ public class TaskService {
             .collect(Collectors.toList());        
     }
 
+    public TaskResponseDto findById(Long id){
+        Task task = taskRepository.getReferenceById(id);
+        return new TaskResponseDto(task);
+    }
+
     public TaskResponseDto create(TaskCreateDto obj){
         Task task = new Task(obj);
         taskRepository.save(task);
         return new TaskResponseDto(task);        
-    }
-    
-    
+    }    
 }
