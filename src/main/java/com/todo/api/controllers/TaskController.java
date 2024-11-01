@@ -44,5 +44,10 @@ public class TaskController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(task.id()).toUri();
         return ResponseEntity.created(uri).body(task);
     }
-    
+
+    @PostMapping("/{id}")
+    public ResponseEntity<TaskResponseDto> finishedTask(@PathVariable Long id){
+        TaskResponseDto task = taskService.finishedTask(id);
+        return ResponseEntity.ok().body(task);
+    }    
 }
