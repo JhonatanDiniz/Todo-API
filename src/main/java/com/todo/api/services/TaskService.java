@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import com.todo.api.entities.Task;
 import com.todo.api.entities.DTOS.TaskCreateDto;
 import com.todo.api.entities.DTOS.TaskResponseDto;
+import com.todo.api.exceptions.ObjectNotFoundException;
 import com.todo.api.repositories.TaskRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TaskService {
@@ -25,7 +28,7 @@ public class TaskService {
     }
 
     public TaskResponseDto findById(Long id){
-        Task task = taskRepository.getReferenceById(id);
+        var task = taskRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Task não encontrada"));
         return new TaskResponseDto(task);
     }
 
