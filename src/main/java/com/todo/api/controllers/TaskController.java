@@ -3,7 +3,12 @@ package com.todo.api.controllers;
 import java.net.URI;
 import java.util.List;
 
+import org.hibernate.query.SortDirection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +32,8 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<List<TaskResponseDto>> findAll(){
-        List<TaskResponseDto> tasks = taskService.findAll();
+    public ResponseEntity<Page<TaskResponseDto>> findAll(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+        Page<TaskResponseDto> tasks = taskService.findAll(pageable);
         return ResponseEntity.ok().body(tasks);
     }
 
