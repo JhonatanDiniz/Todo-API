@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,6 +49,12 @@ public class TaskController {
         TaskResponseDto task = taskService.create(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(task.id()).toUri();
         return ResponseEntity.created(uri).body(task);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskResponseDto> update(@PathVariable Long id, @RequestBody TaskCreateDto obj){
+        TaskResponseDto task = taskService.update(id, obj);
+        return ResponseEntity.ok().body(task);
     }
 
     @PostMapping("/{id}")

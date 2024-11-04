@@ -56,5 +56,14 @@ public class Task {
         this.description = obj.description();
         this.status = StatusTask.EM_ANDAMENTO;
     }
+
+    public void atualizaDados(TaskCreateDto obj){
+        if(obj.title() != null){
+            this.title = obj.title();
+        }
+        if(obj.description() != null){
+            this.description = obj.description();
+        }
+    }
     
 }
