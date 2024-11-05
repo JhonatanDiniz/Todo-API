@@ -42,6 +42,11 @@ public class TaskService {
         taskRepository.save(newTask);
         return new TaskResponseDto(newTask);
     }
+
+    public void delete(Long id){
+        Task task = taskRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Task não encontrada"));
+        taskRepository.deleteById(task.getId());
+    }
     
     public TaskResponseDto finishedTask(Long id){
         Task task = taskRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Task não encontrada"));
