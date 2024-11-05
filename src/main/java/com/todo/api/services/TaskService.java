@@ -22,20 +22,21 @@ public class TaskService {
 
     public Page<TaskResponseDto> findAll(Pageable pageable){
         return taskRepository.findAll(pageable)
-            .map(TaskResponseDto::new);     
+            .map(task ->{
+                atualizarStatusTask(task);
+                return new TaskResponseDto(task);
+            });
     }
 
     public TaskResponseDto findById(Long id){
         Task task = taskRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Task não encontrada"));
+        atualizarStatusTask(task);
         return new TaskResponseDto(task);
     }
 
     public TaskResponseDto create(TaskCreateDto obj){
-        var today = LocalDate.now();
         Task task = new Task(obj);
-        if(obj.dueDate().isBefore(today)){
-            task.setStatus(StatusTask.ATRASADO);
-        }
+        atualizarStatusTask(task);
         taskRepository.save(task);
         return new TaskResponseDto(task);        
     }
@@ -43,6 +44,7 @@ public class TaskService {
     public TaskResponseDto update(Long id, TaskCreateDto obj){
         Task newTask = taskRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Task não encontrada"));
         newTask.atualizaDados(obj);
+        atualizarStatusTask(newTask);
         taskRepository.save(newTask);
         return new TaskResponseDto(newTask);
     }
@@ -62,5 +64,13 @@ public class TaskService {
         }else{
             throw new ObjectNotFoundException("Task já finalizada");
         }
+    }
+
+    public Task atualizarStatusTask(Task task){
+        if(task.getStatus().equals(StatusTask.EM_ANDAMENTO) && LocalDate.now().isAfter(task.getDueDate())){
+            task.setStatus(StatusTask.ATRASADO);
+            taskRepository.save(task);
+        }
+        return task;
     }
 }
