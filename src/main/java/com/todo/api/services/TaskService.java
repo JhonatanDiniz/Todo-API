@@ -31,7 +31,11 @@ public class TaskService {
     }
 
     public TaskResponseDto create(TaskCreateDto obj){
+        var today = LocalDate.now();
         Task task = new Task(obj);
+        if(obj.dueDate().isBefore(today)){
+            task.setStatus(StatusTask.ATRASADO);
+        }
         taskRepository.save(task);
         return new TaskResponseDto(task);        
     }

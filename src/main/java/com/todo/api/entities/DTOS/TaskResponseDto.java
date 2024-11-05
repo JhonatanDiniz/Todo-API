@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.todo.api.entities.Task;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record TaskResponseDto(Long id, String title, String description, String status, LocalDate createdAt, LocalDate duDate, LocalDate finishedAt) {
+public record TaskResponseDto(Long id, String title, String description, String status, LocalDate createdAt, LocalDate dueDate, LocalDate finishedAt) {
 
     public TaskResponseDto(Task obj){
         this(

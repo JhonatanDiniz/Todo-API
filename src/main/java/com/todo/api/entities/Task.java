@@ -47,14 +47,15 @@ public class Task {
         this.title = obj.title();
         this.description = obj.description();
         this.createdAt = obj.createdAt();
-        this.dueDate = obj.duDate();
-        this.dueDate = obj.finishedAt();
+        this.dueDate = obj.dueDate();
+        this.finishedAt = obj.finishedAt();
     }
 
     public Task(TaskCreateDto obj){
         this.title = obj.title();
         this.description = obj.description();
         this.status = StatusTask.EM_ANDAMENTO;
+        this.dueDate = obj.dueDate();
     }
 
     public void atualizaDados(TaskCreateDto obj){
