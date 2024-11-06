@@ -1,5 +1,7 @@
 package com.todo.api.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.todo.api.entities.DTOS.UserRequestDto;
 import com.todo.api.entities.DTOS.UserResponseDto;
 import com.todo.api.entities.DTOS.UserSigninDto;
@@ -10,10 +12,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tb_user")
 public class User {
   
@@ -22,8 +29,11 @@ public class User {
   private Long id;
   private String name;
 
+  @Email
   @Column(unique = true)
   private String email;
+
+  @Length(min = 8, max = 16)
   private String password;
 
   public User(UserResponseDto obj){

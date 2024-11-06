@@ -15,6 +15,8 @@ import com.todo.api.entities.DTOS.UserRequestDto;
 import com.todo.api.entities.DTOS.UserResponseDto;
 import com.todo.api.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/user")
@@ -24,7 +26,7 @@ public class UserController {
   private UserService userService;
 
   @PostMapping
-  public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDto obj){
+  public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserRequestDto obj){
     UserResponseDto user = userService.create(obj);
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.id()).toUri();
     return ResponseEntity.created(uri).body(user);
