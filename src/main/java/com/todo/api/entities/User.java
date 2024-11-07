@@ -33,7 +33,7 @@ public class User {
   @Column(unique = true)
   private String email;
 
-  @Length(min = 8, max = 16)
+  @Length(min = 8, max = 100)
   private String password;
 
   public User(UserResponseDto obj){
