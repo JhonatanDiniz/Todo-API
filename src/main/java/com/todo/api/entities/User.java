@@ -4,7 +4,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.todo.api.entities.DTOS.UserRequestDto;
 import com.todo.api.entities.DTOS.UserResponseDto;
-import com.todo.api.entities.DTOS.UserSigninDto;
+import com.todo.api.entities.DTOS.UserSigninRequestDto;
+import com.todo.api.entities.DTOS.UserSigninResponseDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,7 +49,13 @@ public class User {
     this.password = obj.password();
   }
 
-  public User(UserSigninDto obj){
+  public User(UserSigninResponseDto obj){
+    this.id = obj.id();
+    this.name = obj.name();
+    this.email = obj.email();
+  }
+
+  public User(UserSigninRequestDto obj){
     this.email = obj.email();
     this.password = obj.password();
   }
