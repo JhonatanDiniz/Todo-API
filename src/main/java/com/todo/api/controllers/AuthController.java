@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.todo.api.entities.DTOS.UserRequestDto;
-import com.todo.api.entities.DTOS.UserResponseDto;
 import com.todo.api.entities.DTOS.UserSigninRequestDto;
 import com.todo.api.entities.DTOS.UserSigninResponseDto;
 import com.todo.api.services.AuthService;
