@@ -18,7 +18,6 @@ import com.todo.api.services.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/user")
 public class UserController {
   

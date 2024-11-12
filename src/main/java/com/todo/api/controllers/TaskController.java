@@ -24,7 +24,6 @@ import com.todo.api.entities.DTOS.TaskResponseDto;
 import com.todo.api.services.TaskService;
 
 @RestController
-@CrossOrigin
 @RequestMapping("task")
 public class TaskController {
 
