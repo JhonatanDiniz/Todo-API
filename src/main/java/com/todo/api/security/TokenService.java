@@ -12,6 +12,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.todo.api.entities.User;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 public class TokenService {
 
@@ -43,5 +45,14 @@ public class TokenService {
     } catch (JWTVerificationException e) {
       throw new RuntimeException("Token JWT inválido ou expirado");
     }
+  }
+
+
+  public Long getLoggedUserId(HttpServletRequest request){
+    String userIdStr = (String) request.getAttribute("user_id");
+    if (userIdStr == null){
+      throw new IllegalStateException("Id usuário não encontrado!");
+    }
+    return Long.parseLong(userIdStr);
   }
 }

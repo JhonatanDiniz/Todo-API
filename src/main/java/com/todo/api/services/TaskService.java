@@ -14,12 +14,16 @@ import com.todo.api.entities.DTOS.TaskResponseDto;
 import com.todo.api.entities.ENUMS.StatusTask;
 import com.todo.api.exceptions.ObjectNotFoundException;
 import com.todo.api.repositories.TaskRepository;
+import com.todo.api.repositories.UserRepository;
 
 @Service
 public class TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public Page<TaskResponseDto> findAll(Pageable pageable, Long userId){
         return taskRepository.findByUserId(userId, pageable)
@@ -40,8 +44,13 @@ public class TaskService {
         return new TaskResponseDto(task);
     }
 
-    public TaskResponseDto create(TaskCreateDto obj){
+    public TaskResponseDto create(TaskCreateDto obj, Long userId){
         Task task = new Task(obj);
+
+        var user = userRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
+
+        task.setUser(user);
+
         atualizarStatusTask(task);
         taskRepository.save(task);
         return new TaskResponseDto(task);        

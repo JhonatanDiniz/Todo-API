@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.todo.api.entities.DTOS.TaskCreateDto;
 import com.todo.api.entities.DTOS.TaskResponseDto;
+import com.todo.api.security.TokenService;
 import com.todo.api.services.TaskService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,10 +32,12 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @GetMapping
     public ResponseEntity<Page<TaskResponseDto>> findAll(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, HttpServletRequest request){
-        var userIdStr = (String) request.getAttribute("user_id");
-        Long userId = Long.parseLong(userIdStr);
+        Long userId = tokenService.getLoggedUserId(request);
         
         Page<TaskResponseDto> tasks = taskService.findAll(pageable, userId);
         return ResponseEntity.ok().body(tasks);
@@ -42,15 +45,17 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskResponseDto> findById(@PathVariable Long id, HttpServletRequest request){
-        var userIdStr = (String) request.getAttribute("user_id");
-        Long userId = Long.parseLong(userIdStr);
+        Long userId = tokenService.getLoggedUserId(request);
+
         TaskResponseDto task = taskService.findById(id, userId);
         return ResponseEntity.ok().body(task);
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponseDto> create(@RequestBody TaskCreateDto obj){
-        TaskResponseDto task = taskService.create(obj);
+    public ResponseEntity<TaskResponseDto> create(@RequestBody TaskCreateDto obj, HttpServletRequest request){
+        Long userId = tokenService.getLoggedUserId(request);
+        
+        TaskResponseDto task = taskService.create(obj, userId);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(task.id()).toUri();
         return ResponseEntity.created(uri).body(task);
     }
