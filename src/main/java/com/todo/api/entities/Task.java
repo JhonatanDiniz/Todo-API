@@ -10,9 +10,12 @@ import com.todo.api.entities.DTOS.TaskResponseDto;
 import com.todo.api.entities.ENUMS.StatusTask;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,6 +45,10 @@ public class Task {
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     private LocalDate finishedAt;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Task(TaskResponseDto obj){
         this.id = obj.id();
         this.title = obj.title();
@@ -49,6 +56,9 @@ public class Task {
         this.createdAt = obj.createdAt();
         this.dueDate = obj.dueDate();
         this.finishedAt = obj.finishedAt();
+        if(obj.user() != null){
+            this.user = new User(obj.user().id(), obj.user().name(), obj.user().email(), null);
+        }
     }
 
     public Task(TaskCreateDto obj){

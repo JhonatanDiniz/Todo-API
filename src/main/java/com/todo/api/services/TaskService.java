@@ -20,8 +20,8 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public Page<TaskResponseDto> findAll(Pageable pageable){
-        return taskRepository.findAll(pageable)
+    public Page<TaskResponseDto> findAll(Pageable pageable, Long userId){
+        return taskRepository.findByUserId(userId, pageable)
             .map(task ->{
                 atualizarStatusTask(task);
                 return new TaskResponseDto(task);

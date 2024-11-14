@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +22,8 @@ import com.todo.api.entities.DTOS.TaskCreateDto;
 import com.todo.api.entities.DTOS.TaskResponseDto;
 import com.todo.api.services.TaskService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("task")
 public class TaskController {
@@ -31,8 +32,11 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<Page<TaskResponseDto>> findAll(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
-        Page<TaskResponseDto> tasks = taskService.findAll(pageable);
+    public ResponseEntity<Page<TaskResponseDto>> findAll(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, HttpServletRequest request){
+        var userIdStr = (String) request.getAttribute("user_id");
+        Long userId = Long.parseLong(userIdStr);
+        
+        Page<TaskResponseDto> tasks = taskService.findAll(pageable, userId);
         return ResponseEntity.ok().body(tasks);
     }
 
