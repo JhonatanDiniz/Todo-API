@@ -12,7 +12,6 @@ import com.todo.api.entities.User;
 import com.todo.api.entities.ENUMS.StatusTask;
 import com.todo.api.repositories.TaskRepository;
 import com.todo.api.repositories.UserRepository;
-import com.todo.api.security.SecurityConfig;
 
 @Service
 public class DBService {

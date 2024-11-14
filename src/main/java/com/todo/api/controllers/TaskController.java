@@ -41,8 +41,10 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TaskResponseDto> findById(@PathVariable Long id){
-        TaskResponseDto task = taskService.findById(id);
+    public ResponseEntity<TaskResponseDto> findById(@PathVariable Long id, HttpServletRequest request){
+        var userIdStr = (String) request.getAttribute("user_id");
+        Long userId = Long.parseLong(userIdStr);
+        TaskResponseDto task = taskService.findById(id, userId);
         return ResponseEntity.ok().body(task);
     }
 

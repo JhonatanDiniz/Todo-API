@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.todo.api.entities.Task;
@@ -28,8 +29,13 @@ public class TaskService {
             });
     }
 
-    public TaskResponseDto findById(Long id){
+    public TaskResponseDto findById(Long id, Long userId){
         Task task = taskRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Task não encontrada"));
+        
+        if(!task.getUser().getId().equals(userId)){
+            throw new AccessDeniedException("Não encontrado tarefa!");
+        }
+        
         atualizarStatusTask(task);
         return new TaskResponseDto(task);
     }
